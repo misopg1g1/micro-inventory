@@ -26,7 +26,7 @@ export class InventoryController {
   @Post()
   async create(@Body() inventoryDto: InventoryDto) {
     const inventory: InventoryEntity = plainToInstance(InventoryEntity, inventoryDto);
-    return this.inventoryService.create(inventory.product_id, inventory);
+    return this.inventoryService.create(inventory);
   }
 
   @ApiBody({})
