@@ -1,7 +1,8 @@
-import { IsDateString, IsNotEmpty, IsNumber, isNotEmpty } from "class-validator";
+import { IsDateString, IsNotEmpty, IsNumber, IsString, isNotEmpty } from "class-validator";
 
 export class InventoryDto {
     @IsNotEmpty()
+    @IsString()
     readonly product_id: string;
     @IsNumber()
     readonly stock: number;
