@@ -15,3 +15,17 @@ export class InventoryDto {
     readonly update_at: string;
 
 }
+
+export class InventoryModifyDto {
+    @IsNumber()
+    @IsNotEmpty()
+    readonly stock: number;
+}
+
+export class InventoryCreateDto {
+    @IsNotEmpty()
+    @IsString()
+    readonly product_id: string;
+    @IsNumber()
+    readonly stock: number;
+}
