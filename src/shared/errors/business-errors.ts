@@ -1,6 +1,6 @@
-export function BusinessLogicException(messageIn: string, typeIn: number) {
-    const message = messageIn;
-    const type = typeIn;
+export function BusinessLogicException(this: any, message: string, type: number) {
+    message = message;
+    type = type;
   }
   
 export enum BusinessError {
