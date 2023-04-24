@@ -57,6 +57,15 @@ describe('InventoryService', () => {
     expect(inventory.update_at).toEqual(storedInventory.update_at);    
   });
 
+  it('findOne should throw an exception for an invalid product_id', async () => {
+    await expect(() =>
+      service.findOne(faker.datatype.uuid()),
+    ).rejects.toHaveProperty(
+      'message',
+      'The inventory with the given product id was not found',
+    );
+  });
+
   it('create should return a new inventory', async () => {
     const inventory: InventoryEntity = {
       id: "",
@@ -77,6 +86,23 @@ describe('InventoryService', () => {
     expect(storedInventory.update_at).toEqual(newInventory.update_at);
   });
 
+  it('create should throw an exception for an existing product_id', async () => {
+    const inventory: InventoryEntity = {
+      id: "",
+      product_id: inventoryList[1].product_id,
+      stock: faker.datatype.number(),
+      warehouse_id: faker.datatype.uuid(),
+      created_at: faker.datatype.datetime().toISOString(),
+      update_at: faker.datatype.datetime().toISOString()
+    };
+    await expect(() =>
+      service.create(inventory),
+    ).rejects.toHaveProperty(
+      'message',
+      'The inventory with the given product id already exist',
+    );
+  });
+
   it('update should modify an existing inventory', async () => {
     const inventory: InventoryEntity = inventoryList[0];
     inventory.stock = inventory.stock + 3;
@@ -87,6 +113,27 @@ describe('InventoryService', () => {
     });
     expect(storedInventory).not.toBeNull();
     expect(storedInventory.stock).toEqual(inventory.stock);
+  });
+
+  it('update should throw an exception for an invalid product_id', async () => {
+    const inventory: InventoryEntity = inventoryList[0];
+    await expect(() =>
+      service.update(faker.datatype.uuid(),inventory),
+    ).rejects.toHaveProperty(
+      'message',
+      'The inventory with the given product id was not found',
+    );
+  });
+
+  it('update should throw an exception for a stock < 0', async () => {
+    const inventory: InventoryEntity = inventoryList[0];
+    inventory.stock = -1
+    await expect(() =>
+      service.update(inventory.product_id,inventory),
+    ).rejects.toHaveProperty(
+      'message',
+      'The stock value is less than allowed',
+    );
   });
 
   afterAll(() => {

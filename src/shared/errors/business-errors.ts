@@ -1,6 +1,6 @@
 export function BusinessLogicException(this: any, message: string, type: number) {
-    message = message;
-    type = type;
+    this.message = message;
+    this.type = type;
   }
   
 export enum BusinessError {
