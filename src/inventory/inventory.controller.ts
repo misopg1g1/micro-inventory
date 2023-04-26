@@ -1,7 +1,20 @@
-import { Body, Controller, Get, Param, Patch, Post, Put, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import { InventoryService } from './inventory.service';
-import { InventoryDto, InventoryModifyDto, InventoryCreateDto } from './inventory.dto';
+import {
+  InventoryDto,
+  InventoryModifyDto,
+  InventoryCreateDto,
+} from './inventory.dto';
 import { InventoryEntity } from './inventory.entity';
 import { plainToInstance } from 'class-transformer';
 import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptors';
@@ -27,26 +40,36 @@ export class InventoryController {
     const inventoryDto: InventoryDto = {
       product_id: inventoryCreateDto.product_id,
       stock: inventoryCreateDto.stock,
-      warehouse_id: "1",
+      warehouse_id: '1',
       created_at: new Date().toISOString(),
-      update_at: new Date().toISOString()
-    };   
-    const inventory: InventoryEntity = plainToInstance(InventoryEntity, inventoryDto);
+      update_at: new Date().toISOString(),
+    };
+    const inventory: InventoryEntity = plainToInstance(
+      InventoryEntity,
+      inventoryDto,
+    );
     return this.inventoryService.create(inventory);
   }
 
   @ApiBody({})
   @Put('products/:productId/inventory')
-  async update(@Param('productId') productId: string, @Body() inventoryModifyDto: InventoryModifyDto) {
-    const storedInventory: InventoryEntity = await this.inventoryService.findOne(productId);
+  async update(
+    @Param('productId') productId: string,
+    @Body() inventoryModifyDto: InventoryModifyDto,
+  ) {
+    const storedInventory: InventoryEntity =
+      await this.inventoryService.findOne(productId);
     const inventoryDto: InventoryDto = {
-      product_id: "productId",
+      product_id: 'productId',
       stock: storedInventory.stock + inventoryModifyDto.stock,
       warehouse_id: storedInventory.warehouse_id,
       created_at: storedInventory.created_at,
-      update_at: new Date().toISOString()
+      update_at: new Date().toISOString(),
     };
-    const inventory: InventoryEntity = plainToInstance(InventoryEntity, inventoryDto)
+    const inventory: InventoryEntity = plainToInstance(
+      InventoryEntity,
+      inventoryDto,
+    );
     inventory.product_id = productId;
     return this.inventoryService.update(productId, inventory);
   }

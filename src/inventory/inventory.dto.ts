@@ -1,31 +1,39 @@
-import { IsDateString, IsNotEmpty, IsNumber, IsString, isNotEmpty } from "class-validator";
+import { IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class InventoryDto {
-    @IsNotEmpty()
-    @IsString()
-    readonly product_id: string;
-    @IsNumber()
-    readonly stock: number;
-    @IsNotEmpty()
-    readonly warehouse_id: string;
-    @IsNotEmpty()
-    @IsDateString()
-    readonly created_at: string;
-    @IsDateString()
-    readonly update_at: string;
-
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  readonly product_id: string;
+  @ApiProperty()
+  @IsNumber()
+  readonly stock: number;
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly warehouse_id: string;
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsDateString()
+  readonly created_at: string;
+  @ApiProperty()
+  @IsDateString()
+  readonly update_at: string;
 }
 
 export class InventoryModifyDto {
-    @IsNumber()
-    @IsNotEmpty()
-    readonly stock: number;
+  @ApiProperty()
+  @IsNumber()
+  @IsNotEmpty()
+  readonly stock: number;
 }
 
 export class InventoryCreateDto {
-    @IsNotEmpty()
-    @IsString()
-    readonly product_id: string;
-    @IsNumber()
-    readonly stock: number;
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  readonly product_id: string;
+  @ApiProperty()
+  @IsNumber()
+  readonly stock: number;
 }
